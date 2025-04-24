@@ -46,6 +46,30 @@ export interface IStringSchema extends ISchema {
     // The data type being defined.
     //
     type: "string";
+    
+    //
+    // The format of the string.
+    //
+    format?: 
+      |"date-time"
+      |"date"
+      |"time"
+      |"duration"
+      |"email"
+      |"idn-email"
+      |"hostname"
+      |"idn-hostname"
+      |"ipv4"
+      |"ipv6"
+      |"uri"
+      |"uri-reference"
+      |"iri"
+      |"iri-reference"
+      |"uuid"
+      |"uri-template"
+      |"json-pointer"
+      |"relative-json-pointer"
+      |"regex"
 }
 
 //
@@ -199,6 +223,25 @@ function string(schema: IStringSchema): IGeneratedData {
 
     const valid: any[] = [];
     const invalid: any[] = [];
+    
+    if (schema.format === 'email') {    
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push('not an email')
+        invalid.push('a')
+        
+        valid.push('validemail@testemail.com')
+        valid.push('a@asd.co.uk.it')
+        valid.push('aaa@aaa.de')
+        
+        return {
+            valid,
+            invalid
+        }
+    }
 
     const minLength = schema.minLength || 0;
     const maxLength = schema.maxLength;

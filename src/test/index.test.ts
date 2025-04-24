@@ -235,6 +235,29 @@ describe("generate data", () => {
             ],
         });
     });
+    
+    test("string with format email", () => {
+        const schema = {
+            type: "string",
+            format: "email",
+        };
+        expect(makeData(schema)).toEqual({
+            valid: [
+              'validemail@testemail.com',
+              'a@asd.co.uk.it',
+              'aaa@aaa.de'
+            ],
+            invalid: [
+              undefined,
+              null,
+              42,
+              true,
+              {},
+              'not an email',
+              'a',
+            ],
+        });
+    });
 
     test("string with minLength", () => {
         const schema = {

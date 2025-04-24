@@ -1,6 +1,6 @@
 import { generateData } from "..";
 import { getTopStudents } from "./example-code";
-import { expectMatchesSchema, expectNotMatchesSchema } from "./lib/schema";
+import { expectMatchesSchema } from "./lib/schema";
 
 describe("example fuzz test", () => {
 
@@ -10,6 +10,10 @@ describe("example fuzz test", () => {
         properties: {
             name: {
                 type: "string",
+            },
+            email: {
+                type: "string",
+                format: "email",
             },
             grades: {
                 type: "object",

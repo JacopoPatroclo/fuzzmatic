@@ -61,3 +61,6 @@ build/
 *.bak
 tsconfig.tsbuildinfo
 todo.md
+
+# Mac
+.DS_Store

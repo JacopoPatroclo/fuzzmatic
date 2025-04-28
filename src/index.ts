@@ -56,15 +56,11 @@ export interface IStringSchema extends ISchema {
       |"time"
       |"duration"
       |"email"
-      |"idn-email"
       |"hostname"
-      |"idn-hostname"
       |"ipv4"
       |"ipv6"
       |"uri"
       |"uri-reference"
-      |"iri"
-      |"iri-reference"
       |"uuid"
       |"uri-template"
       |"json-pointer"
@@ -224,22 +220,297 @@ function string(schema: IStringSchema): IGeneratedData {
     const valid: any[] = [];
     const invalid: any[] = [];
     
-    if (schema.format === 'email') {    
+    if (schema.format === "email") {
         invalid.push(undefined);
         invalid.push(null);
         invalid.push(42);
         invalid.push(true);
         invalid.push({});
-        invalid.push('not an email')
-        invalid.push('a')
+        invalid.push("not an email")
+        invalid.push("a")
         
-        valid.push('validemail@testemail.com')
-        valid.push('a@asd.co.uk.it')
-        valid.push('aaa@aaa.de')
+        valid.push("validemail@testemail.com")
+        valid.push("a@asd.co.uk.it")
+        valid.push("aaa@aaa.de")
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === "date") {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("not a date");
+        invalid.push("a");
+        
+        valid.push("2021-12-31");
+        valid.push("1970-01-01");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === "date-time") {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("not a date time");
+        invalid.push("Jan. 1st, 1970 at 1 pm");
+        
+        valid.push("1970-01-01T10:05:08");
+        valid.push("1970-01-01T10:05:08.10");
+        valid.push("1970-01-01T10:05:08+01:00");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === "time") {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("not time");
+        invalid.push("45:60:62");
+        invalid.push("10:05");
+        invalid.push("1 pm");
+          
+        valid.push("10:05:08");
+        valid.push("10:05:08.5");
+        valid.push("10:05:08-02:30");
+        valid.push("10:05:08Z");
         
         return {
             valid,
             invalid
+        }
+    }
+    
+    if (schema.format === "duration") {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("PT1D");
+        
+        valid.push("P4DT12H30M5S");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === "uuid") {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("2GB8AA08-AA98-11EA-B4AA-73B441D16380");
+        invalid.push("2eb8aa08aa9811eab4aa73b441d16380");
+        
+        valid.push("5075e9ca-8ef5-473f-a8a1-a2533dc358ca");
+        valid.push("54ce2ee5-7686-48da-8758-7cfc6d29bc48");
+        valid.push("5c2ef891-753d-47a5-9f9f-59c7fb3a7b05");
+        valid.push("f69a71fc-3bc1-46fe-aed6-ca29530abca1");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === "hostname") {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("not_a_valid_host_name");
+        
+        valid.push("www.example.com");
+        valid.push("xn--4gbwdl.xn--wgbh1c");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === "regex") {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("a/b");
+        invalid.push("(a");
+        
+        valid.push("^[a-z]+$");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === "ipv4") {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("192.168.1.1.1");
+        
+        valid.push("192.168.0.1");
+        valid.push("0.0.0.0");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === 'ipv6') {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("12345::");
+        
+        valid.push("::1");
+        valid.push("2001:db8:3333:4444:5555:6666:1.2.3.4");
+        valid.push("::11.22.33.44");
+        valid.push("2001:db8::123.123.123.123");
+        valid.push("::1234:5678:91.123.4.56");
+        valid.push("::1234:5678:1.2.3.4");
+        valid.push("2001:db8::1234:5678:5.6.7.8");
+  
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === 'uri') {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("http://a_example.com");
+        invalid.push("aaa/bbb.html");
+        
+        valid.push("http://example.com/path?qs=v&qs2[1]=3#fragment");
+        valid.push("https://google.com");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === 'uri-reference') {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("http://a_example.com");
+        
+        valid.push("aaa/bbb.html");
+        valid.push("?a=b");
+        valid.push("#fragment");
+        valid.push("http://example.com");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === 'uri-template') {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("http://a_example.com/file.php{?q,r}");
+        
+        valid.push("/{+file}.html");
+        valid.push("http://example.com/dictionary/{term:1}/{term}");
+        valid.push("{?q,lang}");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === 'json-pointer') {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("/a/~");
+        
+        valid.push("/a/b/c");
+        
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === 'relative-json-pointer') {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("/a/b");
+        
+        valid.push("0/a/b");
+        valid.push("5/a/b#");
+        valid.push("2#");
+         
+        return {
+          valid,
+          invalid
+        }
+    }
+    
+    if (schema.format === 'iri-reference') {
+        invalid.push(undefined);
+        invalid.push(null);
+        invalid.push(42);
+        invalid.push(true);
+        invalid.push({});
+        invalid.push("\\\\WINDOWS\\filëßåré");
+        
+        valid.push("//ƒøø.ßår/?∂éœ=πîx#πîüx");
+        valid.push("#ƒrägmênt");
+        valid.push("http://ƒøø.com/blah_(wîkïpédiå)_blah#ßité-1");
+        
+        return {
+          valid,
+          invalid
         }
     }
 

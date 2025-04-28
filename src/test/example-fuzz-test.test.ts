@@ -15,6 +15,62 @@ describe("example fuzz test", () => {
                 type: "string",
                 format: "email",
             },
+            "date-time": {
+              type: "string",
+              format: "date-time"
+            },
+            "date": {
+              type: "string",
+              format: "date"
+            },
+            "time": {
+              type: "string",
+              format: "time"
+            },
+            "duration": {
+              type: "string",
+              format: "duration"
+            },
+            "hostname": {
+              type: "string",
+              format: "hostname"
+            },
+            "ipv4": {
+              type: "string",
+              format: "ipv4"
+            },
+            "ipv6": {
+              type: "string",
+              format: "ipv6"
+            },
+            "uri": {
+              type: "string",
+              format: "uri"
+            },
+            "uri-reference": {
+              type: "string",
+              format: "uri-reference"
+            },
+            "uuid": {
+              type: "string",
+              format: "uuid"
+            },
+            "uri-template": {
+              type: "string",
+              format: "uri-template"
+            },
+            "json-pointer": {
+              type: "string",
+              format: "json-pointer"
+            },
+            "relative-json-pointer": {
+              type: "string",
+              format: "relative-json-pointer"
+            },
+            "regex": {
+              type: "string",
+              format: "regex"
+            },
             grades: {
                 type: "object",
                 additionalProperties: {
